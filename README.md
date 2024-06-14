@@ -1,6 +1,6 @@
 # FlutterTrans CLI
 
-FlutterTrans CLI is a command-line tool designed to facilitate the translation of strings in Flutter applications at compile time. It automates the extraction, translation, and management of localized strings, allowing developers to easily internationalize their Flutter apps.
+FlutterTrans CLI is a command-line tool designed to facilitate the translation of strings in Flutter applications at compile time. It automates the extraction, translation, and management of localized strings, allowing developers to easily internationalize their Flutter apps. This CLI tool is intended to be used alongside the [trans_flutter package](https://pub.dev/packages/trans_flutter) for seamless integration and dynamic localization.
 
 ## Features
 
@@ -62,6 +62,10 @@ Ensure you have a `locales` file at `assets/translations/all_locales.json` conta
 2. **Translate Strings**: It uses the Google Translate API to translate these strings into the specified languages.
 3. **Save Translations**: Translations are saved in JSON files under `assets/translations/`.
 4. **Update Dependencies**: Finally, the tool runs `flutter pub get` to ensure all asset dependencies are up-to-date.
+
+## Integration with trans_flutter
+
+The FlutterTrans CLI tool is designed to work seamlessly with the [trans_flutter package](https://pub.dev/packages/trans_flutter). Make sure to include `trans_flutter` in your `pubspec.yaml` file and configure your app to load the generated translations.
 
 ## Contributing
 
