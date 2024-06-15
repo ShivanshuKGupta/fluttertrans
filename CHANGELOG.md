@@ -1,3 +1,7 @@
+## 0.0.4
+
+- Modified template for all_locales.json to include supported_locales and fallback_locale.
+
 ## 0.0.3
 
 - Fixed the issue with the `trans_flutter` cli not being used as an executable.
