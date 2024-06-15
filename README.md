@@ -48,12 +48,14 @@ fluttertrans [project_dir]
 Ensure you have a `locales` file at `assets/translations/all_locales.json` containing a list of language codes you wish to support. Example:
 
 ```json
-[
-  "en",
-  "es",
-  "fr",
-  "de"
-]
+{
+    "supportedLocales": [
+        "en",
+        "hi",
+        "es"
+    ],
+    "fallbackLocale": "hi"
+}
 ```
 
 ## How It Works
