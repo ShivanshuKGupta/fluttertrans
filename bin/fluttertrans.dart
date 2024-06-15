@@ -31,7 +31,7 @@ void main(List<String> arguments) async {
 
   // Set the base directory to the provided argument or current directory
   baseDir = arguments.firstOrNull ?? Directory.current.absolute.path;
-  dynamic allLocales = <String>[];
+  dynamic supportedLocales = <String>[];
 
   try {
     // Ensure the asset folder exists
@@ -41,19 +41,27 @@ void main(List<String> arguments) async {
 
     // Ensure the locales file exists
     if (!await localesFile.exists()) {
-      localesFile.writeAsStringSync('[]');
+      localesFile.writeAsStringSync(json.encode({
+        "supportedLocales": ['en'],
+        "fallbackLocale": "en",
+      }));
     }
 
     // Read and parse the locales file
-    allLocales = json.decode(await localesFile.readAsString());
+    final localesData = json.decode(await localesFile.readAsString());
+    supportedLocales = localesData['supportedLocales'];
 
     // Validate the locales data
-    if (allLocales.isEmpty) {
+    if (supportedLocales == null || supportedLocales.isEmpty) {
       throw 'Please add some locales to `${localesFile.path}`\nAnd then try again.';
     }
 
-    if (allLocales! is List<String>) {
-      throw 'Invalid locales file data. Please make sure it is a list of strings.';
+    if (supportedLocales is! List) {
+      throw 'Invalid locales file data. Please make sure supportedLocales is a list of strings.';
+    }
+
+    if (supportedLocales.length == 1 && supportedLocales[0] == 'en') {
+      throw 'Please add some locales other than English to `${localesFile.path}`\nAnd then try again.';
     }
   } catch (e) {
     // Handle errors in setting up the asset folder and locales file
@@ -97,7 +105,7 @@ void main(List<String> arguments) async {
   spinner.success('Extracted ${allEnglishStrings.length} strings!');
 
   // Iterate over all locale codes and translate the strings
-  for (final languageCode in allLocales) {
+  for (final languageCode in supportedLocales) {
     if (languageCode == 'en') {
       continue;
     }
