@@ -139,13 +139,11 @@ void main(List<String> arguments) async {
       'flutter',
       ['pub', 'get'],
       workingDirectory: baseDir,
+      runInShell: true,
     );
 
     if (result.exitCode != 0) {
-      // Handle errors in running `flutter pub get`
-      spinner.fail('Error running flutter pub get');
-      print(result.stderr);
-      exit(1);
+      throw ('flutter exited with code ${result.exitCode}');
     }
 
     spinner.success('flutter pub get done!');
