@@ -45,6 +45,9 @@ void main(List<String> arguments) async {
         "supportedLocales": ['en'],
         "fallbackLocale": "en",
       }));
+      spinner.success(
+          'Created ${localesFile.path} file!\nPlease add some locales to it and then run the `fluttertrans` command again.');
+      return;
     }
 
     // Read and parse the locales file
@@ -84,7 +87,7 @@ void main(List<String> arguments) async {
 
         // Add the extracted strings to the map
         for (final trString in trStrings) {
-          allEnglishStrings[trString] = null;
+          allEnglishStrings[trString] = trString;
         }
       } catch (e) {
         // Handle errors in reading the file
