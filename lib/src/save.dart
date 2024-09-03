@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:fluttertrans/globals.dart';
+import 'package:fluttertrans/src/globals.dart';
 
 /// Function to save translations to a file
 Future<void> save(

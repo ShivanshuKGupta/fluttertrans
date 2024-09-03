@@ -9,6 +9,7 @@ environment:
 dependencies:
   cli_spin: ^1.0.1
   translator: ^1.0.0
+  analyzer: ^6.5.0
 
 executables:
   fluttertrans: fluttertrans

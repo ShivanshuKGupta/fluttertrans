@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:cli_spin/cli_spin.dart';
-import 'package:fluttertrans/globals.dart';
-import 'package:fluttertrans/save.dart';
+import 'package:fluttertrans/src/globals.dart';
+import 'package:fluttertrans/src/save.dart';
 
 /// Function to translate strings and save the translations
 Future<void> translateNSave(
