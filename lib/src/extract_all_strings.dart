@@ -45,6 +45,7 @@ class _StringLiteralVisitor extends RecursiveAstVisitor<void> {
   }
 
   @override
+  // ignore: override_on_non_overriding_member
   void visitStringLiteral(StringLiteral node) {
     // General visit method for string literals
     if (node is SimpleStringLiteral) {
