@@ -22,7 +22,9 @@ Future<void> translateNSave(
   }
 
   /// Translate each English string
-  for (final englishString in allEnglishStrings.keys) {
+  for (final englishString in allEnglishStrings.keys.where(
+    (element) => allEnglishStrings[element] != null,
+  )) {
     if (trStrings.containsKey(englishString) &&
         trStrings[englishString] != null) {
       continue;
