@@ -135,7 +135,13 @@ Future<void> saveEnglishTranslations(
     spinner: CliSpinners.line,
   ).start();
   try {
-    await save('en', allEnglishStrings);
+    final Map<String, String?> data = {
+      for (final key in allEnglishStrings.keys)
+        if (allEnglishStrings[key] != null) key: allEnglishStrings[key],
+      for (final key in allEnglishStrings.keys)
+        if (allEnglishStrings[key] == null) key: allEnglishStrings[key]
+    };
+    await save('en', data);
   } catch (e) {
     spinner.fail('Error: $e');
     exit(1);
