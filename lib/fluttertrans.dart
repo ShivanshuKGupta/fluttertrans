@@ -93,7 +93,6 @@ Future<Map<String, String?>> extractStrings() async {
   final toInclude = chooseMany(
     allEnglishTranslations.keys.toList(),
     prompt: 'Which strings to translate?',
-    hint: 'Press right arrow key to select, Enter to confirm.',
     initialSelections: allEnglishTranslations.keys
         .where((key) => allEnglishTranslations[key] != null)
         .toSet(),

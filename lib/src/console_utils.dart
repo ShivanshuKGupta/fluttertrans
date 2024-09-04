@@ -136,7 +136,7 @@ Set<T> chooseMany<T>(
   String Function(T option)? getOptionText,
   String prompt = "Select options:",
   String hint =
-      "(Move up and down to select. Press right arrow or space to select. Press Enter to confirm.)",
+      "(Press `space` to select, `Enter` to confirm, `Ctrl+a` to select all & `del` to deselect-all.)",
   Set<T>? initialSelections,
 }) {
   final console = Console();
@@ -174,7 +174,7 @@ Set<T> chooseMany<T>(
     console.showCursor();
 
     /// Removing everything below startLine
-    for (var i = 0; i < options.length + 2; i++) {
+    for (var i = 0; i < options.length + 3; i++) {
       console.cursorPosition = Coordinate(startLine + i, 0);
       console.eraseLine();
     }
@@ -188,9 +188,22 @@ Set<T> chooseMany<T>(
     }
   }
 
+  void select() {
+    if (selectedOptions.contains(options[currentSelection])) {
+      selectedOptions.remove(options[currentSelection]);
+    } else {
+      selectedOptions.add(options[currentSelection]);
+    }
+  }
+
   while (true) {
     printMenu();
     final key = console.readKey();
+
+    if (key.controlChar == ControlCharacter.none) {
+      if (key.char == ' ') select();
+      continue;
+    }
 
     switch (key.controlChar) {
       case ControlCharacter.arrowUp:
@@ -211,12 +224,9 @@ Set<T> chooseMany<T>(
         selectedOptions.remove(options[currentSelection]);
         break;
 
-      case ControlCharacter.arrowRight: // case ControlCharacter.space:
-        if (selectedOptions.contains(options[currentSelection])) {
-          selectedOptions.remove(options[currentSelection]);
-        } else {
-          selectedOptions.add(options[currentSelection]);
-        }
+      case ControlCharacter.arrowRight:
+        // case ControlCharacter.space:
+        select();
         break;
 
       case ControlCharacter.home:
@@ -228,11 +238,12 @@ Set<T> chooseMany<T>(
         break;
 
       case ControlCharacter.ctrlC:
+      case ControlCharacter.escape:
         resetTerminal();
         console.writeErrorLine('Keyboard Interrupt. Exiting...');
         exit(1);
 
-      case ControlCharacter.escape:
+      case ControlCharacter.delete:
         selectedOptions.clear();
         break;
 
@@ -242,8 +253,7 @@ Set<T> chooseMany<T>(
         break;
 
       default:
-        print(
-            'key.controlChar: ${key.controlChar} & key.char: \'${key.char}\'');
+        // print('key.controlChar: ${key.controlChar} & key.char: \'${key.char}\'');
         break;
     }
   }
