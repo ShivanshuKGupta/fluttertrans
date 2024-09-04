@@ -4,10 +4,10 @@ FlutterTrans CLI is a command-line tool designed to facilitate the translation o
 
 ## Features
 
-- **Automatic Extraction**: Scans your Flutter project for translatable strings.
+- **Automatic Extraction**: Scans your Flutter project for translatable strings. You also have the option to manually mark strings for translation.
 - **Translation**: Uses Google Translate to automatically translate strings into multiple languages.
 - **Localization Management**: Manages your localization files, ensuring they are up-to-date with the latest translations.
-- **Integration**: Seamlessly integrates with your Flutter project and supports running `flutter pub get` after translation.
+- **Integration**: Seamlessly integrates with your Flutter project.
 
 ## Installation
 
@@ -22,12 +22,8 @@ dart pub global activate fluttertrans
 To use FlutterTrans CLI, navigate to your Flutter project directory and run the following command:
 
 ```sh
-fluttertrans [project_dir]
+fluttertrans
 ```
-
-### Options
-
-- `--help`, `-h`: Display usage information.
 
 ### Example
 
@@ -54,13 +50,13 @@ Ensure you have a `locales` file at `assets/translations/all_locales.json` conta
         "hi",
         "es"
     ],
-    "fallbackLocale": "hi"
+    "fallbackLocale": "en"
 }
 ```
 
 ## How It Works
 
-1. **Extract Strings**: The tool scans your Flutter project for strings marked for translation (e.g., `tr` function).
+1. **Extract Strings**: The tool scans your Flutter project for strings marked for translation, strings which end with a `.tr`. However, you can also choose which strings to translate.
 2. **Translate Strings**: It uses the Google Translate API to translate these strings into the specified languages.
 3. **Save Translations**: Translations are saved in JSON files under `assets/translations/`.
 4. **Update Dependencies**: Finally, the tool runs `flutter pub get` to ensure all asset dependencies are up-to-date.

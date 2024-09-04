@@ -12,6 +12,14 @@ import 'package:fluttertrans/src/save.dart';
 import 'package:fluttertrans/src/translate_save.dart';
 
 Future<void> main(List<String> arguments) async {
+  if (arguments.contains('--help') || arguments.contains('-h')) {
+    print('''Usage: fluttertrans [directory]'''
+        '''\n\nExtracts all strings from the given directory and translates them to other languages.'''
+        '''\n\nOptions:'''
+        '''\n  --help   Show this help message.''');
+    return;
+  }
+
   baseDir = arguments.firstOrNull ?? Directory.current.absolute.path;
 
   final supportedLocales = await getSupportedLocales();
