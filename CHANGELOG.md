@@ -1,3 +1,9 @@
+## 0.0.6
+
+- Removed terminal menu, instead a web page will be opened to allow the user to choose which strings to translate.
+- Json files are now prettified, before saving to files.
+- Added support for json config file.
+
 ## 0.0.5
 
 - Added support for scanning all strings in the code base.
