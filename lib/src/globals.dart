@@ -7,10 +7,10 @@ late final String baseDir;
 final translator = GoogleTranslator();
 
 /// Getter for the lib folder in the project
-Directory get libFolder => Directory('$baseDir/lib');
+final Directory libFolder = Directory('$baseDir/lib');
 
 /// Getter for the assets/translations folder
-Directory get assetFolder => Directory('$baseDir/assets/translations');
+late final Directory assetFolder;
 
 /// Getter for the locales file in the assets/translations folder
-File get localesFile => File('${assetFolder.path}/all_locales.json');
+late final File localesFile;

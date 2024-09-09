@@ -2,25 +2,40 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:cli_spin/cli_spin.dart';
-import 'package:fluttertrans/src/console_utils.dart';
 import 'package:fluttertrans/src/extract_all_strings.dart';
 import 'package:fluttertrans/src/extractor_tr_strings.dart';
 import 'package:fluttertrans/src/flutter_pub_get.dart';
 import 'package:fluttertrans/src/get_supported_locales.dart';
 import 'package:fluttertrans/src/globals.dart';
+import 'package:fluttertrans/src/http_server.dart';
 import 'package:fluttertrans/src/save.dart';
 import 'package:fluttertrans/src/translate_save.dart';
 
 Future<void> main(List<String> arguments) async {
   if (arguments.contains('--help') || arguments.contains('-h')) {
-    print('''Usage: fluttertrans [directory]'''
-        '''\n\nExtracts all strings from the given directory and translates them to other languages.'''
-        '''\n\nOptions:'''
-        '''\n  --help   Show this help message.''');
+    print(
+        '''For usage and more information head over to: https://pub.dev/packages/fluttertrans''');
     return;
   }
 
-  baseDir = arguments.firstOrNull ?? Directory.current.absolute.path;
+  /// Assigning global variables
+  baseDir = Directory.current.absolute.path;
+  String translationFolder = '$baseDir/assets/translations';
+
+  final configFile = File('$baseDir/fluttertrans.json');
+  try {
+    if (await configFile.exists()) {
+      final config = json.decode(await configFile.readAsString());
+      translationFolder =
+          config['translationFolder']?.toString() ?? translationFolder;
+    }
+  } catch (e) {
+    print('Error reading config file `${configFile.path}`: $e');
+  }
+
+  print('Translation Folder is set to: $translationFolder');
+  assetFolder = Directory(translationFolder);
+  localesFile = File('${assetFolder.path}/all_locales.json');
 
   final supportedLocales = await getSupportedLocales();
 
@@ -98,12 +113,11 @@ Future<Map<String, String?>> extractStrings() async {
 
   spinner.success('Extracted ${allEnglishTranslations.length} strings!');
 
-  final toInclude = chooseMany(
-    allEnglishTranslations.keys.toList(),
-    prompt: 'Which strings to translate?',
-    initialSelections: allEnglishTranslations.keys
+  final toInclude = await getStrings(
+    strings: allEnglishTranslations.keys.toList(),
+    initialSelection: allEnglishTranslations.keys
         .where((key) => allEnglishTranslations[key] != null)
-        .toSet(),
+        .toList(),
   );
 
   allEnglishTranslations.forEach((key, value) {
