@@ -18,7 +18,7 @@ Future<List<String>> getSupportedLocales() async {
 
     /// Ensure the locales file exists
     if (!await localesFile.exists()) {
-      localesFile.writeAsStringSync(json.encode({
+      localesFile.writeAsStringSync(prettyJson.convert({
         "supportedLocales": ['en'],
         "fallbackLocale": "en",
       }));

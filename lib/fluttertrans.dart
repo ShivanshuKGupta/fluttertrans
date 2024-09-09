@@ -33,7 +33,6 @@ Future<void> main(List<String> arguments) async {
     print('Error reading config file `${configFile.path}`: $e');
   }
 
-  print('Translation Folder is set to: $translationFolder');
   assetFolder = Directory(translationFolder);
   localesFile = File('${assetFolder.path}/all_locales.json');
 
@@ -156,16 +155,19 @@ Future<void> saveEnglishTranslations(
     spinner: CliSpinners.line,
   ).start();
   try {
-    final Map<String, String?> data = {
+    final notNullStrings = {
       for (final key in allEnglishStrings.keys)
-        if (allEnglishStrings[key] != null) key: allEnglishStrings[key],
+        if (allEnglishStrings[key] != null) key: allEnglishStrings[key]
+    };
+    final Map<String, String?> data = {
+      ...notNullStrings,
       for (final key in allEnglishStrings.keys)
         if (allEnglishStrings[key] == null) key: allEnglishStrings[key]
     };
     await save('en', data);
+    spinner.success('${notNullStrings.length} strings saved!');
   } catch (e) {
     spinner.fail('Error: $e');
     exit(1);
   }
-  spinner.success('Extracted ${allEnglishStrings.length} strings!');
 }

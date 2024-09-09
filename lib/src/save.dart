@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:fluttertrans/src/globals.dart';
@@ -7,5 +6,6 @@ import 'package:fluttertrans/src/globals.dart';
 Future<void> save(
     String languageCode, Map<String, String?> translations) async {
   final langFile = File('${assetFolder.path}/$languageCode.json');
-  await langFile.writeAsString(json.encode(translations));
+  String prettyPrint = prettyJson.convert(translations);
+  await langFile.writeAsString(prettyPrint);
 }

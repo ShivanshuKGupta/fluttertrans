@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:translator/translator.dart';
@@ -14,3 +15,6 @@ late final Directory assetFolder;
 
 /// Getter for the locales file in the assets/translations folder
 late final File localesFile;
+
+/// JSON encoder with indentation
+final prettyJson = JsonEncoder.withIndent('    ');

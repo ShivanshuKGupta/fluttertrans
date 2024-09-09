@@ -15,10 +15,7 @@ Future<List<String>> getStrings({
   );
   print(
       'Head to http://${server.address.address}:${server.port} and choose all the strings to be translated.');
-  if (!await launchUrl('http://${server.address.address}:${server.port}')) {
-    print(
-        'Failed to launch browser. Copy and paste the URL above in your browser.');
-  }
+  await launchUrl('http://${server.address.address}:${server.port}');
 
   final selectedStringsCompleter = Completer<List<String>>();
 
@@ -32,7 +29,6 @@ Future<List<String>> getStrings({
       final selectedStrings = await handlePostStrings(request);
       if (selectedStrings != null) {
         await server.close(force: true);
-        print('Server stopped');
 
         /// Complete the future with the selected strings
         selectedStringsCompleter.complete(selectedStrings);
@@ -66,8 +62,6 @@ Future<List<String>?> handlePostStrings(HttpRequest request) async {
     Map<String, dynamic> data = jsonDecode(content);
 
     selectedStrings = List<String>.from(data['selectedStrings']);
-
-    print('Selected strings: $selectedStrings');
 
     request.response.statusCode = HttpStatus.ok;
     request.response.write('Strings submitted successfully');
